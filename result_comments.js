@@ -17,7 +17,9 @@ function getBookById(id) {
     //обращание к api
     fetch('api/books/' + id)
         // проверка статуса запроса
-        .then(checkStatus)
+        .then(function(response){
+            return checkStatus(response);
+        })
         // выводим название книги
         .then(function(response){
             book.textContent = response.name;
@@ -41,7 +43,9 @@ function loadPage(bookId) {
     // обращение к api по id
 	fetch('api/books/' + bookId)
 	    // проверяем статус запроса
-	    .then(checkStatus)
+	    .then(function(response){
+            return checkStatus(response);
+        })
 	    // получаем Book detais
 	    .then(function(response){
 	        // выводим название книги

@@ -12,7 +12,9 @@ function getBookById(id) {
     var book = document.getElementById('book');
     book.textContent = 'Please wait. Book is loading';
     fetch('api/books/' + id)
-        .then(checkStatus)
+        .then(function(response){
+            return checkStatus(response);
+        })
         .then(function(response){
             book.textContent = response.name;
         })
@@ -32,7 +34,9 @@ function loadPage(bookId) {
 	similar.textContent = 'Please wait. Similar books are loading';
 
 	fetch('api/books/' + bookId)
-	    .then(checkStatus)
+	    .then(function(response){
+            return checkStatus(response);
+        })
 	    .then(function(response){
             book.textContent = response.name;
             return fetch('api/authors' + response.authorId);
