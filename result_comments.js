@@ -1,13 +1,11 @@
 // Handling HTTP error statuses from https://github.com/github/fetch
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
-}
+ function checkStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText));
+        }
+    }
 
 function getBookById(id) {
     //кешируем обращение к DOM в локальную переменную для повторного использования
@@ -17,9 +15,7 @@ function getBookById(id) {
     //обращание к api
     fetch('api/books/' + id)
         // проверка статуса запроса
-        .then(function(response){
-            return checkStatus(response);
-        })
+        .then(checkStatus)
         // выводим название книги
         .then(function(response){
             book.textContent = response.name;
@@ -43,9 +39,7 @@ function loadPage(bookId) {
     // обращение к api по id
 	fetch('api/books/' + bookId)
 	    // проверяем статус запроса
-	    .then(function(response){
-            return checkStatus(response);
-        })
+	    .then(checkStatus)
 	    // получаем Book detais
 	    .then(function(response){
 	        // выводим название книги

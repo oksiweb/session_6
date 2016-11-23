@@ -1,20 +1,16 @@
 function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
-}
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText));
+        }
+    }
 
 function getBookById(id) {
     var book = document.getElementById('book');
     book.textContent = 'Please wait. Book is loading';
     fetch('api/books/' + id)
-        .then(function(response){
-            return checkStatus(response);
-        })
+        .then(checkStatus)
         .then(function(response){
             book.textContent = response.name;
         })
@@ -34,9 +30,7 @@ function loadPage(bookId) {
 	similar.textContent = 'Please wait. Similar books are loading';
 
 	fetch('api/books/' + bookId)
-	    .then(function(response){
-            return checkStatus(response);
-        })
+	    .then(checkStatus)
 	    .then(function(response){
             book.textContent = response.name;
             return fetch('api/authors' + response.authorId);
