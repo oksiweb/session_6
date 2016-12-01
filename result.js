@@ -12,6 +12,9 @@ function getBookById(id) {
     fetch('api/books/' + id)
         .then(checkStatus)
         .then(function(response){
+            return response.json();
+        })
+        .then(function(response){
             book.textContent = response.name;
         })
         .catch(function(error){
@@ -31,6 +34,9 @@ function loadPage(bookId) {
 
 	fetch('api/books/' + bookId)
 	    .then(checkStatus)
+	    .then(function(response){
+            return response.json();
+        })
 	    .then(function(response){
             book.textContent = response.name;
             return fetch('api/authors' + response.authorId);

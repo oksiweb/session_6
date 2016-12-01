@@ -16,6 +16,10 @@ function getBookById(id) {
     fetch('api/books/' + id)
         // проверка статуса запроса
         .then(checkStatus)
+        // принимает response.Возвращает обещание, содержащее данные в формате JSON.
+        .then(function(response){
+            return response.json();
+        })
         // выводим название книги
         .then(function(response){
             book.textContent = response.name;
@@ -40,6 +44,10 @@ function loadPage(bookId) {
 	fetch('api/books/' + bookId)
 	    // проверяем статус запроса
 	    .then(checkStatus)
+	    // принимает response.Возвращает обещание, содержащее данные в формате JSON.
+	    .then(function(response){
+            return response.json();
+        })
 	    // получаем Book detais
 	    .then(function(response){
 	        // выводим название книги
